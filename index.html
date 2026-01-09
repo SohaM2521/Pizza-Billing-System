@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pizza Billing App</title>
+    <style>
+        * { box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body {
+          margin: 0;
+          min-height: 100vh;
+          background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .container {
+          background: #fff;
+          width: 100%;
+          max-width: 420px;
+          border-radius: 16px;
+          padding: 24px;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+        h1 {
+          text-align: center;
+          margin-bottom: 8px;
+        }
+        p.subtitle {
+          text-align: center;
+          color: #555;
+          margin-bottom: 20px;
+        }
+        .section {
+          margin-bottom: 16px;
+        }
+        label {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 10px 12px;
+          border: 1px solid #ddd;
+          border-radius: 10px;
+          margin-bottom: 10px;
+          cursor: pointer;
+        }
+        input[type="checkbox"], input[type="radio"] {
+          transform: scale(1.2);
+        }
+        button {
+          width: 100%;
+          padding: 14px;
+          border: none;
+          border-radius: 12px;
+          background: #ff6f61;
+          color: #fff;
+          font-size: 16px;
+          cursor: pointer;
+        }
+        button:hover { background: #ff3b2e; }
+        .bill {
+          margin-top: 20px;
+          background: #f9f9f9;
+          border-radius: 12px;
+          padding: 16px;
+          display: none;
+        }
+        .bill h3 { margin-top: 0; }
+        .row {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 6px;
+        }
+        .total {
+          font-weight: bold;
+          border-top: 1px dashed #aaa;
+          padding-top: 8px;
+          margin-top: 10px;
+        }
+        @media (max-width: 480px) {
+          .container { border-radius: 0; min-height: 100vh; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>🍕 Pizza Order</h1>
+    <p class="subtitle">Deluxe & Classic Billing</p>
+
+    <div class="section">
+        <label>
+            <span>Veg Pizza (₹300)</span>
+            <input type="radio" name="type" value="veg" checked />
+        </label>
+        <label>
+            <span>Non‑Veg Pizza (₹400)</span>
+            <input type="radio" name="type" value="nonveg" />
+        </label>
+    </div>
+
+    <div class="section">
+        <label>
+            <span>Extra Cheese (+₹100)</span>
+            <input type="checkbox" id="cheese" />
+        </label>
+        <label>
+            <span>Extra Toppings (+₹150)</span>
+            <input type="checkbox" id="toppings" />
+        </label>
+        <label>
+            <span>Take Away (+₹20)</span>
+            <input type="checkbox" id="takeaway" />
+        </label>
+    </div>
+
+    <button onclick="calculateBill()">Generate Bill</button>
+
+    <div class="bill" id="billBox">
+        <h3>🧾 Bill Details</h3>
+        <div id="billDetails"></div>
+    </div>
+</div>
+
+<script>
+    function calculateBill() {
+      let total = 0;
+      let details = '';
+
+      const type = document.querySelector('input[name="type"]:checked').value;
+      if (type === 'veg') {
+        total += 300;
+        details += `<div class="row"><span>Veg Pizza</span><span>₹300</span></div>`;
+      } else {
+        total += 400;
+        details += `<div class="row"><span>Non‑Veg Pizza</span><span>₹400</span></div>`;
+      }
+
+      if (document.getElementById('cheese').checked) {
+        total += 100;
+        details += `<div class="row"><span>Extra Cheese</span><span>₹100</span></div>`;
+      }
+      if (document.getElementById('toppings').checked) {
+        total += 150;
+        details += `<div class="row"><span>Extra Toppings</span><span>₹150</span></div>`;
+      }
+      if (document.getElementById('takeaway').checked) {
+        total += 20;
+        details += `<div class="row"><span>Take Away</span><span>₹20</span></div>`;
+      }
+
+      details += `<div class="row total"><span>Total</span><span>₹${total}</span></div>`;
+
+      document.getElementById('billDetails').innerHTML = details;
+      document.getElementById('billBox').style.display = 'block';
+    }
+</script>
+</body>
+</html>
